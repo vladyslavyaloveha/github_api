@@ -1,0 +1,126 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a simple Github scrapper server.",
+        "title": "Fetching Github Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/github",
+    "paths": {
+        "/{name}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieves repository info based on given name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/{name}/commits": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieves commits based on given repository name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Commit Author: GitHub login or email address",
+                        "name": "author",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Since timestamp: 2020-05-25T06:34:16Z",
+                        "name": "since",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Since timestamp: 2020-05-25T06:34:16Z",
+                        "name": "until",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/{name}/issues": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieves issues on given repository name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "all",
+                            "open",
+                            "closed"
+                        ],
+                        "type": "string",
+                        "description": "Issue State",
+                        "name": "state",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

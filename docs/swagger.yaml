@@ -1,0 +1,84 @@
+basePath: /github
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a simple Github scrapper server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Fetching Github Example API
+  version: "1.0"
+paths:
+  /{name}:
+    get:
+      parameters:
+      - description: Repository Name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Retrieves repository info based on given name
+  /{name}/commits:
+    get:
+      parameters:
+      - description: Repository Name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: 'Commit Author: GitHub login or email address'
+        in: query
+        name: author
+        type: string
+      - description: 'Since timestamp: 2020-05-25T06:34:16Z'
+        in: query
+        name: since
+        type: string
+      - description: 'Since timestamp: 2020-05-25T06:34:16Z'
+        in: query
+        name: until
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Retrieves commits based on given repository name
+  /{name}/issues:
+    get:
+      parameters:
+      - description: Repository Name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Issue State
+        enum:
+        - all
+        - open
+        - closed
+        in: query
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Retrieves issues on given repository name
+swagger: "2.0"
