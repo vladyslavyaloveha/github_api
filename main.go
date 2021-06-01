@@ -39,8 +39,8 @@ func main() {
 	githubAPI := app.Party("/github")
 	{
 		githubAPI.Use(iris.Compression)
-		// GET: http://localhost:8080/github/{name}
-		githubAPI.Get("/{name}", listRepository)
+		// GET: http://localhost:8080/github/{owner}/{name}
+		githubAPI.Get("/{owner}/{name}", listRepository)
 		// GET: http://localhost:8080/github/{name}/issues
 		githubAPI.Get("/{name}/issues/", listIssues)
 		// GET: http://localhost:8080/github/{name}/commits

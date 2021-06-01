@@ -13,9 +13,14 @@ info:
   title: Fetching Github Example API
   version: "1.0"
 paths:
-  /{name}:
+  /{owner}/{name}:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name
@@ -29,9 +34,14 @@ paths:
           schema:
             type: string
       summary: Retrieves repository info based on given name
-  /{name}/commits:
+  /{owner}/{name}/commits:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name
@@ -57,9 +67,14 @@ paths:
           schema:
             type: string
       summary: Retrieves commits based on given repository name
-  /{name}/issues:
+  /{owner}/{name}/issues:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name

@@ -33,13 +33,20 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/{name}": {
+        "/{owner}/{name}": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "summary": "Retrieves repository info based on given name",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Owner",
+                        "name": "owner",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Repository Name",
@@ -58,13 +65,20 @@ var doc = `{
                 }
             }
         },
-        "/{name}/commits": {
+        "/{owner}/{name}/commits": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "summary": "Retrieves commits based on given repository name",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Owner",
+                        "name": "owner",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Repository Name",
@@ -101,13 +115,20 @@ var doc = `{
                 }
             }
         },
-        "/{name}/issues": {
+        "/{owner}/{name}/issues": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "summary": "Retrieves issues on given repository name",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Repository Owner",
+                        "name": "owner",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Repository Name",

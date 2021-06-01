@@ -97,18 +97,15 @@ func getIssues(client *github.Client, query string, filter IssueFilter) ([]Issue
 	return issues, nil
 }
 
-func getIssueState(ctx iris.Context) string {
+func getIssueState(ctx iris.Context) (string, error) {
 	state := ctx.URLParamDefault("state", "all")
-	switch state {
-	case "all":
-		return state
-	case "open":
-		return state
-	case "closed":
-		return state
-	default:
-		return "all"
+	states := [4]string{"all", "open", "close"}
+	for _, st := range states {
+		if state == st {
+			return state, nil
+		}
 	}
+	return "", fmt.Errorf("state %s is invalid", state)
 }
 
 func getCommits(client *github.Client, query string, filter CommitFilter) ([]Commit, error) {
