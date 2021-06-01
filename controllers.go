@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-var CLIENT = getGithubClient(nil)
 var JSONOptions = iris.JSON{Secure: true}
 
 // listRepository godoc
