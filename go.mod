@@ -13,8 +13,10 @@ require (
 	github.com/kataras/iris/v12 v12.2.0-alpha2.0.20210427211137-fa175eb84754
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/spf13/viper v1.7.1 // indirect
 	github.com/swaggo/swag v1.7.0
 	golang.org/x/net v0.0.0-20210525063256-abc453219eb5 // indirect
+	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c // indirect
 	golang.org/x/sys v0.0.0-20210531080801-fdfd190a6549 // indirect
 	golang.org/x/tools v0.1.2 // indirect
 )
