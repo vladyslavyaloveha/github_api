@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"time"
@@ -25,7 +24,6 @@ func listRepository(ctx iris.Context) {
 	} else {
 		ctx.JSON(context.Map{"repository": repository, "error": nil}, JSONOptions)
 	}
-	fmt.Println(repository)
 }
 
 // listIssues godoc
