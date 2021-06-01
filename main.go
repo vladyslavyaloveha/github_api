@@ -7,6 +7,8 @@ import (
 	_ "github_api/docs"
 )
 
+var CLIENT = getGithubClient(getEnvVar("GITHUB_TOKEN"))
+
 // @title Fetching Github Example API
 // @version 1.0
 // @description This is a simple Github scrapper server.
