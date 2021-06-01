@@ -5,12 +5,32 @@ import (
 	"fmt"
 	"github.com/google/go-github/v35/github"
 	"github.com/kataras/iris/v12"
+	"github.com/spf13/viper"
+	"golang.org/x/oauth2"
+	"log"
 	"net/http"
 )
 
-func getGithubClient(httpClient *http.Client) *github.Client {
-	// TODO: add auth for private functions and repos
-	client := github.NewClient(httpClient)
+func getEnvVar(key string) string {
+	viper.SetConfigFile(".env")
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatalf("Error while reading config file %s", err)
+	}
+	value, ok := viper.Get(key).(string)
+	if !ok {
+		log.Fatalf("Invalid key or type assertion: key=%s, value=%#v", key, value)
+	}
+	return value
+}
+
+func getGithubClient(token string) *github.Client {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
 	return client
 }
 
