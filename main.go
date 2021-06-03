@@ -25,7 +25,6 @@ var CLIENT = getGithubClient(getEnvVar("GITHUB_TOKEN"))
 // @BasePath /github
 func main() {
 	app := iris.New()
-
 	docsAPI := app.Party("/swagger")
 	{
 		docsAPI.Use(iris.Compression)
@@ -39,14 +38,14 @@ func main() {
 	githubAPI := app.Party("/github")
 	{
 		githubAPI.Use(iris.Compression)
+		// GET: http://localhost:8080/github/repositories
+		githubAPI.Get("/repositories", listOwnersRepositories)
 		// GET: http://localhost:8080/github/{owner}/{name}
-		githubAPI.Get("/{owner}/{name}", listRepository)
+		githubAPI.Get("/{owner:string}/{name:string}", listRepository)
 		// GET: http://localhost:8080/github/{name}/issues
-		githubAPI.Get("/{name}/issues/", listIssues)
+		githubAPI.Get("/{name:string}/issues/", listIssues)
 		// GET: http://localhost:8080/github/{name}/commits
-		githubAPI.Get("/{name}/commits", listCommits)
+		githubAPI.Get("/{name:string}/commits", listCommits)
 	}
-
 	app.Listen(":8080")
-
 }
