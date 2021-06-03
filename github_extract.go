@@ -99,7 +99,7 @@ func getIssues(client *github.Client, query string, filter IssueFilter) ([]Issue
 
 func getIssueState(ctx iris.Context) (string, error) {
 	state := ctx.URLParamDefault("state", "all")
-	states := [4]string{"all", "open", "close"}
+	states := [3]string{"all", "open", "close"}
 	for _, st := range states {
 		if state == st {
 			return state, nil
@@ -140,4 +140,38 @@ func getCommits(client *github.Client, query string, filter CommitFilter) ([]Com
 func getCommitAuthor(ctx iris.Context) string {
 	author := ctx.URLParamDefault("author", "")
 	return author
+}
+
+func getOwnerRepositories(owner string, ch chan<- []*github.Repository) {
+	opt := &github.RepositoryListOptions{Type: "owner", Sort: "updated", Direction: "desc"}
+	ctx := context.Background()
+	repos, _, err := CLIENT.Repositories.List(ctx, owner, opt)
+	if err != nil {
+		ch <- nil
+	}
+	ch <- repos
+}
+
+func getOwnersRepositories(owners []string, maxRequests int) []Repository {
+	var repos_ []Repository
+	ch := make(chan []*github.Repository, maxRequests)
+	for _, user := range owners {
+		go getOwnerRepositories(user, ch)
+	}
+	for range owners {
+		repos := <-ch
+		for _, repo := range repos {
+			repos_ = append(repos_, Repository{
+				ID:          repo.ID,
+				Owner:       repo.Owner,
+				Name:        repo.Name,
+				FullName:    repo.FullName,
+				Description: repo.Description,
+				CreatedAt:   repo.CreatedAt,
+				Language:    repo.Language,
+				GitURL:      repo.GitURL,
+			})
+		}
+	}
+	return repos_
 }
