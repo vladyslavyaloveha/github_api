@@ -33,6 +33,39 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/repositories": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieves repositories based on given owners names",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Pass json with keyword owners and array with values",
+                        "name": "owners",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "description": "Max concurrent requests (1-100), default=5",
+                        "name": "max_requests",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/{owner}/{name}": {
             "get": {
                 "produces": [
@@ -100,7 +133,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "Since timestamp: 2020-05-25T06:34:16Z",
+                        "description": "Until timestamp: 2020-05-25T06:34:16Z",
                         "name": "until",
                         "in": "query"
                     }
