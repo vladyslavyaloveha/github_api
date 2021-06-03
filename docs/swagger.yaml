@@ -13,9 +13,14 @@ info:
   title: Fetching Github Example API
   version: "1.0"
 paths:
-  /{name}:
+  /{owner}/{name}:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name
@@ -29,9 +34,14 @@ paths:
           schema:
             type: string
       summary: Retrieves repository info based on given name
-  /{name}/commits:
+  /{owner}/{name}/commits:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name
@@ -45,7 +55,7 @@ paths:
         in: query
         name: since
         type: string
-      - description: 'Since timestamp: 2020-05-25T06:34:16Z'
+      - description: 'Until timestamp: 2020-05-25T06:34:16Z'
         in: query
         name: until
         type: string
@@ -57,9 +67,14 @@ paths:
           schema:
             type: string
       summary: Retrieves commits based on given repository name
-  /{name}/issues:
+  /{owner}/{name}/issues:
     get:
       parameters:
+      - description: Repository Owner
+        in: path
+        name: owner
+        required: true
+        type: string
       - description: Repository Name
         in: path
         name: name
@@ -81,4 +96,26 @@ paths:
           schema:
             type: string
       summary: Retrieves issues on given repository name
+  /repositories:
+    get:
+      parameters:
+      - description: Pass json with keyword owners and array with values
+        in: query
+        name: owners
+        required: true
+        type: string
+      - description: Max concurrent requests (1-100), default=5
+        in: query
+        maximum: 100
+        minimum: 1
+        name: max_requests
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Retrieves repositories based on given owners names
 swagger: "2.0"

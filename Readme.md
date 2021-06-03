@@ -5,5 +5,6 @@
 
 ## Start 
 
-1. Add .env file with `GITHUB_TOKEN=token` var in root dir.
+1. Add .env file with `GITHUB_TOKEN=token` var in root dir. To generate token, visit
+   ``https://github.com/settings/tokens``
 2. ``go run github_api``
