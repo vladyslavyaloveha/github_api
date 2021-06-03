@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"strconv"
 	"time"
 )
 
@@ -57,7 +60,7 @@ func listIssues(ctx iris.Context) {
 // @Param name path string true "Repository Name"
 // @Param author query string false "Commit Author: GitHub login or email address"
 // @Param since query string false "Since timestamp: 2020-05-25T06:34:16Z"
-// @Param until query string false "Since timestamp: 2020-05-25T06:34:16Z"
+// @Param until query string false "Until timestamp: 2020-05-25T06:34:16Z"
 // @Success 200 {string} ok
 // @Router /{owner}/{name}/commits [get]
 func listCommits(ctx iris.Context) {
@@ -82,4 +85,30 @@ func listCommits(ctx iris.Context) {
 	} else {
 		ctx.JSON(context.Map{"commits": commits, "error": nil}, JSONOptions)
 	}
+}
+
+// listOwnersRepositories godoc
+// @Summary Retrieves repositories based on given owners names
+// @Produce json
+// @Param owners query string true "Pass json with keyword owners and array with values"
+// @Param max_requests query integer false "Max concurrent requests (1-100), default=5" minimum(1) maximum(100)
+// @Success 200 {string} ok
+// @Router /repositories [get]
+func listOwnersRepositories(ctx iris.Context) {
+	ownersParam := ctx.URLParamDefault("owners", "")
+	maxRequestsParam := ctx.URLParamDefault("max_requests", "5")
+	maxRequests, _ := strconv.Atoi(maxRequestsParam)
+
+	var val map[string][]string
+	if err := json.Unmarshal([]byte(ownersParam), &val); err != nil {
+		ctx.StopWithError(iris.StatusBadRequest, err)
+		return
+	}
+	if _, ok := val["owners"]; !ok {
+		ctx.StopWithError(iris.StatusBadRequest, fmt.Errorf("key owners not passed"))
+		return
+	}
+	repositories := getOwnersRepositories(val["owners"], maxRequests)
+	ctx.JSON(context.Map{"repositories": repositories, "error": nil}, JSONOptions)
+
 }
