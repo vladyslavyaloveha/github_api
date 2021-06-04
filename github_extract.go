@@ -99,7 +99,7 @@ func getIssues(client *github.Client, query string, filter IssueFilter) ([]Issue
 
 func getIssueState(ctx iris.Context) (string, error) {
 	state := ctx.URLParamDefault("state", "all")
-	states := [3]string{"all", "open", "close"}
+	states := [3]string{"all", "open", "closed"}
 	for _, st := range states {
 		if state == st {
 			return state, nil
