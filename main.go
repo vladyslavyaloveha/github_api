@@ -42,10 +42,10 @@ func main() {
 		githubAPI.Get("/repositories", listOwnersRepositories)
 		// GET: http://localhost:8080/github/{owner}/{name}
 		githubAPI.Get("/{owner:string}/{name:string}", listRepository)
-		// GET: http://localhost:8080/github/{name}/issues
-		githubAPI.Get("/{name:string}/issues/", listIssues)
-		// GET: http://localhost:8080/github/{name}/commits
-		githubAPI.Get("/{name:string}/commits", listCommits)
+		// GET: http://localhost:8080/github/{owner}/{name}/issues
+		githubAPI.Get("/{owner:string}/{name:string}/issues/", listIssues)
+		// GET: http://localhost:8080/github/{owner}/{name}/commits
+		githubAPI.Get("/{owner:string}/{name:string}/commits", listCommits)
 	}
 	app.Listen(":8080")
 }
